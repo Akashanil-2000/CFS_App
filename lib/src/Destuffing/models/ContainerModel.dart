@@ -1,10 +1,18 @@
+import 'dart:async';
+
 class ContainerModel {
   final int id;
-  final int? destuffId; // new field
+  final int? destuffId;
   final String? containerNumber;
   final String? sealNumber;
   final String? customerStatus;
   final String? origin;
+
+  // 🕒 UI-only fields for stopwatch
+  bool isRunning;
+  bool isPaused;
+  Duration elapsed;
+  Timer? timer;
 
   ContainerModel({
     required this.id,
@@ -13,6 +21,12 @@ class ContainerModel {
     this.sealNumber,
     this.customerStatus,
     this.origin,
+
+    // defaults for stopwatch
+    this.isRunning = false,
+    this.isPaused = false,
+    this.elapsed = Duration.zero,
+    this.timer,
   });
 
   factory ContainerModel.fromJson(Map<String, dynamic> json) {
@@ -27,6 +41,12 @@ class ContainerModel {
               ? json['responsible_user_id'][1]
               : null,
       origin: json['origin_id'] != false ? json['origin_id'][1] : null,
+
+      // 🕒 UI fields initialized here automatically
+      isRunning: false,
+      isPaused: false,
+      elapsed: Duration.zero,
+      timer: null,
     );
   }
 }

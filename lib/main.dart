@@ -1,6 +1,6 @@
 import 'package:cfs_app/src/login/loginController.dart';
 import 'package:cfs_app/src/login/loginScreen.dart';
-import 'package:cfs_app/src/screens/Home.dart';
+import 'package:cfs_app/src/CommonScreens/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

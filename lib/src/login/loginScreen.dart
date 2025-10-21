@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF2196F3), Color(0xFF64B5F6)],
+            colors: [Colors.red, Colors.red],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -32,14 +32,14 @@ class LoginScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // App Logo / Title
-                    const Icon(Icons.warehouse, size: 60, color: Colors.blue),
+                    const Icon(Icons.warehouse, size: 60, color: Colors.red),
                     const SizedBox(height: 10),
                     const Text(
                       "CFS App",
                       style: TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                        color: Colors.red,
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -81,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Colors.red,
                           ),
                           onPressed:
                               loginCtrl.isLoading.value
@@ -100,6 +100,7 @@ class LoginScreen extends StatelessWidget {
                                   : const Text(
                                     "Login",
                                     style: TextStyle(
+                                      color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),

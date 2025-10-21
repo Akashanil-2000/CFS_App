@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Main gradient colors
-  static const Color primary = Color(0xFF2196F3); // Blue
-  static const Color primaryLight = Color(0xFF64B5F6);
+  static const Color primary = Colors.red; // Blue
+  static const Color primaryLight = Colors.red;
 
   // Text colors
   static const Color textDark = Colors.black87;
