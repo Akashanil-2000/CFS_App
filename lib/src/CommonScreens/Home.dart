@@ -1,9 +1,14 @@
+import 'package:cfs_app/src/Stuffing/screens/stuffing_screen.dart';
 import 'package:cfs_app/src/constants/theme.dart';
-import 'package:cfs_app/src/forms/customBottomNav.dart';
 import 'package:cfs_app/src/login/loginController.dart';
 import 'package:cfs_app/src/Destuffing/screens/destuffing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+// Dummy screen imports (replace with your actual screen imports)
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -163,7 +168,15 @@ class HomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => DestuffingScreen(type: type));
+        if (title == "STUFFING") {
+          Get.to(() => StuffingScreen(type: type));
+        } else if (title == "DESTUFFING") {
+          Get.to(() => DestuffingScreen(type: type));
+        } else if (title == "Cargo Receiving") {
+          Get.to(() => ());
+        } else if (title == "Cargo Delivery") {
+          Get.to(() => ());
+        }
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

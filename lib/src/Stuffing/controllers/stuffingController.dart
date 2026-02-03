@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:cfs_app/src/Destuffing/models/ContainerModel.dart';
 
+import 'package:cfs_app/src/Stuffing/models/ContainerModel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
-class DestuffingController extends GetxController {
-  var containers = <ContainerModel>[].obs;
+class StuffingController extends GetxController {
+  var containers = <StuffingContainerModel>[].obs;
   var isLoading = false.obs;
 
   final String baseUrl = "https://css.odoouae.org/jsonrpc";
@@ -40,7 +40,7 @@ class DestuffingController extends GetxController {
           "container.freight.station",
           "search_read",
           [
-            ["schedule_type", "=", "incoming"],
+            ["schedule_type", "=", "outgoing"],
           ],
           [
             "container_number",
@@ -68,7 +68,8 @@ class DestuffingController extends GetxController {
         debugPrint("✅ Decoded JSON: $result");
 
         final List data = result["result"] ?? [];
-        containers.value = data.map((e) => ContainerModel.fromJson(e)).toList();
+        containers.value =
+            data.map((e) => StuffingContainerModel.fromJson(e)).toList();
       } else {
         debugPrint("❌ HTTP Error: ${response.statusCode}");
         debugPrint("❌ Response Body: ${response.body}");
@@ -81,23 +82,23 @@ class DestuffingController extends GetxController {
     }
   }
 
-  Future<void> updateDestuffStatus(int id, String action) async {
+  Future<void> updateStuffingStatus(int id, String action) async {
     final now = DateTime.now().toUtc().toIso8601String();
 
     Map<String, dynamic> values = {};
     if (action == 'start') {
       values = {
-        "destuff_start": now,
-        "destuff_status": "in_progress",
-        "state": "destuff_process",
-        "destuff_hold_duration": 0,
+        "stuffing_start": now,
+        "stuffing_status": "in_progress",
+        "state": "stuffing_process",
+        "stuffing_hold_duration": 0,
       };
     } else if (action == 'stop') {
       values = {
-        "destuff_stop": now,
-        "destuff_status": "completed",
-        "state": "destuff_process",
-        "destuff_last_hold_time": null,
+        "stuffing_stop": now,
+        "stuffing_status": "completed",
+        "state": "stuffing_process",
+        "stuffing_last_hold_time": null,
       };
     }
 
@@ -135,7 +136,7 @@ class DestuffingController extends GetxController {
         debugPrint("❌ Error ${response.statusCode}: ${response.body}");
       }
     } catch (e) {
-      debugPrint("🔥 updateDestuffStatus failed: $e");
+      debugPrint("🔥 updateStuffingStatus failed: $e");
     }
   }
 }
