@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cfs_app/src/Destuffing/models/packageModel.dart';
+import 'package:cfs_app/src/constants/url_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,9 +14,6 @@ class PackagesController extends GetxController {
 
   final int destuffId;
   PackagesController({required this.destuffId});
-
-  final String baseUrl = "https://css.odoouae.org/jsonrpc";
-  final String db = "css_dmp_mar_25";
 
   final box = GetStorage(); // ✅ Access saved login data
 

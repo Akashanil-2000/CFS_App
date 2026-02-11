@@ -1,17 +1,16 @@
 import 'dart:convert';
 import 'package:cfs_app/src/Destuffing/models/ContainerModel.dart';
+import 'package:cfs_app/src/constants/url_constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 class DestuffingController extends GetxController {
   var containers = <ContainerModel>[].obs;
   var isLoading = false.obs;
-
-  final String baseUrl = "https://css.odoouae.org/jsonrpc";
-  final String db = "css_dmp_mar_25";
 
   final box = GetStorage(); // ✅ use same storage as login
 
@@ -21,7 +20,9 @@ class DestuffingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchContainers();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchContainers();
+    });
   }
 
   Future<void> fetchContainers() async {
@@ -48,6 +49,7 @@ class DestuffingController extends GetxController {
             "responsible_user_id",
             "origin_id",
             "container_number",
+            "state",
           ],
         ],
       },

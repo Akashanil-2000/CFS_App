@@ -1,10 +1,7 @@
+import 'package:cfs_app/src/Destuffing/screens/destuffing/destuffingDashboardScreen.dart';
 import 'package:cfs_app/src/Stuffing/screens/stuffing_screen.dart';
 import 'package:cfs_app/src/constants/theme.dart';
 import 'package:cfs_app/src/login/loginController.dart';
-import 'package:cfs_app/src/Destuffing/screens/destuffing_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -171,7 +168,7 @@ class HomeCard extends StatelessWidget {
         if (title == "STUFFING") {
           Get.to(() => StuffingScreen(type: type));
         } else if (title == "DESTUFFING") {
-          Get.to(() => DestuffingScreen(type: type));
+          Get.to(() => DestuffingDashboardScreen());
         } else if (title == "Cargo Receiving") {
           Get.to(() => ());
         } else if (title == "Cargo Delivery") {

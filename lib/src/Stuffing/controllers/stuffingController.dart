@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cfs_app/src/Stuffing/models/ContainerModel.dart';
+import 'package:cfs_app/src/constants/url_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -9,9 +10,6 @@ import 'package:http/http.dart' as http;
 class StuffingController extends GetxController {
   var containers = <StuffingContainerModel>[].obs;
   var isLoading = false.obs;
-
-  final String baseUrl = "https://css.odoouae.org/jsonrpc";
-  final String db = "css_dmp_mar_25";
 
   final box = GetStorage(); // ✅ use same storage as login
 

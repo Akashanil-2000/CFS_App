@@ -69,6 +69,7 @@ class _AddPackageScreenState extends State<AddPackageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F7FB),
       appBar: AppBar(
         title: Text(
           "Add Package - ${widget.hblNo}",
@@ -90,8 +91,10 @@ class _AddPackageScreenState extends State<AddPackageScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            _sectionTitle("Package Details"),
             _buildInputCard(),
             const SizedBox(height: 20),
+            _sectionTitle("Photos"),
             _buildImageCard(),
             const SizedBox(height: 30),
             _buildSaveButton(),
@@ -103,18 +106,32 @@ class _AddPackageScreenState extends State<AddPackageScreen> {
 
   Widget _buildInputCard() {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+      elevation: 2,
+      shadowColor: Colors.black12,
+
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            _buildTextField(qtyCtrl, "Quantity", TextInputType.number),
+            _buildTextField(
+              qtyCtrl,
+              "Quantity",
+              type: TextInputType.number,
+              icon: Icons.numbers,
+            ),
             const SizedBox(height: 16),
-            _buildTextField(conditionCtrl, "Condition"),
-            const SizedBox(height: 16),
-            _buildTextField(marksCtrl, "Marks & Number"),
-            const SizedBox(height: 16),
+            _buildTextField(
+              conditionCtrl,
+              "Condition",
+              icon: Icons.inventory_2_outlined,
+            ),
+            _buildTextField(
+              marksCtrl,
+              "Marks & Number",
+              icon: Icons.qr_code_scanner,
+            ),
+
             _buildRemarksDropdown(),
           ],
         ),
@@ -124,8 +141,10 @@ class _AddPackageScreenState extends State<AddPackageScreen> {
 
   Widget _buildImageCard() {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+      elevation: 2,
+      shadowColor: Colors.black12,
+
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -148,40 +167,46 @@ class _AddPackageScreenState extends State<AddPackageScreen> {
             ),
             const SizedBox(height: 12),
             if (_images.isNotEmpty)
-              SizedBox(
-                height: 80,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _images.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.file(
-                              _images[index],
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            top: -8,
-                            right: -8,
-                            child: IconButton(
-                              icon: const Icon(Icons.cancel, color: Colors.red),
-                              onPressed: () {
-                                setState(() => _images.removeAt(index));
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
                 ),
+                itemCount: _images.length,
+                itemBuilder: (context, index) {
+                  return Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.file(
+                          _images[index],
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Positioned(
+                        right: 4,
+                        top: 4,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.black54,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            iconSize: 18,
+                            icon: const Icon(Icons.close, color: Colors.white),
+                            onPressed:
+                                () => setState(() => _images.removeAt(index)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
           ],
         ),
@@ -202,11 +227,12 @@ class _AddPackageScreenState extends State<AddPackageScreen> {
         decoration: InputDecoration(
           labelText: "Remarks",
           filled: true,
-          fillColor: Colors.grey[100],
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.red, width: 1),
-            borderRadius: BorderRadius.circular(8),
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide.none,
           ),
+
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.red, width: 2),
             borderRadius: BorderRadius.circular(8),
@@ -250,31 +276,46 @@ class _AddPackageScreenState extends State<AddPackageScreen> {
 
   Widget _buildTextField(
     TextEditingController controller,
-    String label, [
+    String label, {
     TextInputType type = TextInputType.text,
-  ]) {
+    IconData? icon,
+  }) {
     return TextField(
       controller: controller,
       keyboardType: type,
-      cursorColor: Colors.black, // 🔹 Cursor color
-      style: const TextStyle(color: Colors.black), // Text color
       decoration: InputDecoration(
+        prefixIcon: icon != null ? Icon(icon, color: AppColors.primary) : null,
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.black), // Label color
-        floatingLabelStyle: const TextStyle(
-          color: Colors.black,
-        ), // Floating label color
         filled: true,
-        fillColor: Colors.grey[100],
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.red, width: 2),
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
         ),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.red, width: 1),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: AppColors.primary, width: 1.5),
         ),
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 12,
+          vertical: 18,
+          horizontal: 14,
+        ),
+      ),
+    );
+  }
+
+  Widget _sectionTitle(String title) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[700],
+          ),
         ),
       ),
     );

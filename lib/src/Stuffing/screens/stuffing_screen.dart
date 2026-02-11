@@ -6,7 +6,7 @@ import 'package:cfs_app/src/Stuffing/models/ContainerModel.dart';
 import 'package:cfs_app/src/constants/theme.dart';
 import 'package:cfs_app/src/forms/customBottomNav.dart';
 
-import 'package:cfs_app/src/Destuffing/screens/packages_screen.dart';
+import 'package:cfs_app/src/Destuffing/screens/packages/packages_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

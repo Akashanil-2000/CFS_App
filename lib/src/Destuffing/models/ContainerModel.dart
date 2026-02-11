@@ -7,6 +7,7 @@ class ContainerModel {
   final String? sealNumber;
   final String? customerStatus;
   final String? origin;
+  final String? state;
 
   // 🕒 UI-only fields for stopwatch
   bool isRunning;
@@ -21,6 +22,7 @@ class ContainerModel {
     this.sealNumber,
     this.customerStatus,
     this.origin,
+    this.state,
 
     // defaults for stopwatch
     this.isRunning = false,
@@ -41,6 +43,7 @@ class ContainerModel {
               ? json['responsible_user_id'][1]
               : null,
       origin: json['origin_id'] != false ? json['origin_id'][1] : null,
+      state: json['state'] != false ? json['state'] : null,
 
       // 🕒 UI fields initialized here automatically
       isRunning: false,

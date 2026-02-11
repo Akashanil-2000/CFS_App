@@ -1,9 +1,9 @@
 import 'package:cfs_app/src/constants/theme.dart';
 import 'package:cfs_app/src/forms/customBottomNav.dart';
 import 'package:cfs_app/src/Destuffing/models/packageModel.dart';
-import 'package:cfs_app/src/Destuffing/screens/addPackageScreen.dart';
+import 'package:cfs_app/src/Destuffing/screens/packages/addPackageScreen.dart';
 import 'package:cfs_app/src/Destuffing/controller/packageController.dart';
-import 'package:cfs_app/src/Destuffing/screens/packageSubmissionScreen.dart';
+import 'package:cfs_app/src/Destuffing/screens/packages/packageSubmissionScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

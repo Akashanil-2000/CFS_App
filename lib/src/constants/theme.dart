@@ -13,5 +13,5 @@ class AppColors {
   static const Color error = Colors.red;
 
   // Background
-  static const Color background = Color(0xFFF5F5F5);
+  static const Color background = Color(0xFFF5F7FB);
 }
