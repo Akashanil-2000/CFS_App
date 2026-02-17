@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cfs_app/src/Destuffing/models/ContainerModel.dart';
+import 'package:cfs_app/src/Destuffing/models/container_detail_model.dart';
 import 'package:cfs_app/src/constants/url_constants.dart';
 
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class DestuffingController extends GetxController {
   }
 
   Future<void> fetchContainers() async {
-    isLoading(true);
+    safeLoading(true);
 
     final body = {
       "jsonrpc": "2.0",
@@ -78,8 +79,73 @@ class DestuffingController extends GetxController {
     } catch (e) {
       debugPrint("🔥 Error fetching containers: $e");
     } finally {
-      isLoading(false);
+      safeLoading(false);
       debugPrint("🏁 fetchContainers() completed");
+    }
+  }
+
+  void safeLoading(bool value) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      safeLoading(value);
+    });
+  }
+
+  var detail = Rxn<ContainerDetailModel>();
+
+  Future<void> fetchContainerDetail(int id) async {
+    safeLoading(true);
+
+    final body = {
+      "jsonrpc": "2.0",
+      "method": "execute",
+      "params": {
+        "service": "object",
+        "method": "execute",
+        "args": [
+          db,
+          uid,
+          password,
+          "container.freight.station",
+          "search_read",
+          [
+            ["id", "=", id],
+          ],
+          [
+            "name",
+            "custom_status",
+            "payment_status",
+            "container_type_id",
+            "container_number",
+            "seal_number",
+            "request_date",
+            "priority",
+            "priority_remarks",
+            "origin_country_id",
+            "origin_id",
+            "hbl_count",
+            "mbl_packages_uom",
+            "mbl_weight_uom",
+            "mbl_volume_uom",
+          ],
+        ],
+      },
+      "id": 1,
+    };
+
+    try {
+      final res = await http.post(
+        Uri.parse(baseUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
+
+      final result = jsonDecode(res.body);
+      final data = result["result"][0];
+      detail.value = ContainerDetailModel.fromJson(data);
+    } catch (e) {
+      debugPrint("Detail Error: $e");
+    } finally {
+      safeLoading(false);
     }
   }
 

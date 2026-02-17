@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:cfs_app/src/Destuffing/models/ContainerModel.dart';
+import 'package:cfs_app/src/Destuffing/screens/destuffing/container_detail_screen.dart';
 import 'package:cfs_app/src/constants/theme.dart';
 import 'package:cfs_app/src/forms/customBottomNav.dart';
 import 'package:cfs_app/src/Destuffing/controller/destuffingController.dart';
-import 'package:cfs_app/src/Destuffing/screens/packages/packages_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,7 +19,7 @@ class DestuffingScreen extends StatefulWidget {
 }
 
 class _DestuffingScreenState extends State<DestuffingScreen> {
-  final DestuffingController ctrl = Get.put(DestuffingController());
+  late DestuffingController ctrl;
   int _currentIndex = 0;
   final TextEditingController searchCtrl = TextEditingController();
   var filteredContainers = <ContainerModel>[].obs;
@@ -27,6 +27,8 @@ class _DestuffingScreenState extends State<DestuffingScreen> {
   @override
   void initState() {
     super.initState();
+
+    ctrl = Get.find<DestuffingController>();
 
     if (widget.preFiltered != null) {
       // Came from Dashboard
@@ -41,11 +43,13 @@ class _DestuffingScreenState extends State<DestuffingScreen> {
   }
 
   void filterContainers(String query) {
+    final source = widget.preFiltered ?? ctrl.containers;
+
     if (query.isEmpty) {
-      filteredContainers.assignAll(ctrl.containers);
+      filteredContainers.assignAll(source);
     } else {
       filteredContainers.assignAll(
-        ctrl.containers.where(
+        source.where(
           (c) =>
               (c.containerNumber?.toLowerCase() ?? "").contains(
                 query.toLowerCase(),
@@ -69,6 +73,7 @@ class _DestuffingScreenState extends State<DestuffingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         title: const Text(
@@ -139,13 +144,11 @@ class _DestuffingScreenState extends State<DestuffingScreen> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(14),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => PackagesScreen(destuffId: cargo.id),
-                      ),
-                    );
+                    Future.microtask(() {
+                      Get.to(() => ContainerDetailScreen(id: cargo.id));
+                    });
                   },
+
                   onLongPress: () {
                     setState(() {
                       if (!cargo.isRunning) {
@@ -265,5 +268,11 @@ class _DestuffingScreenState extends State<DestuffingScreen> {
         onTap: (index) => setState(() => _currentIndex = index),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    searchCtrl.dispose();
+    super.dispose();
   }
 }
